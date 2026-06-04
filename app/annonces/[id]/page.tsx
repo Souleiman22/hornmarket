@@ -4,10 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import ContactForm from "@/components/ContactForm";
 import FavoriteButton from "@/components/FavoriteButton";
-import dynamic from "next/dynamic";
+import MapViewWrapper from "@/components/MapViewWrapper";
 import { getCountryName } from "@/lib/countries";
-
-const MapView = dynamic(() => import("@/components/MapView"), { ssr: false });
 
 export const revalidate = 0;
 
@@ -100,7 +98,7 @@ export default async function ListingPage({ params }: { params: Promise<{ id: st
           {/* Map */}
           <div className="bg-white dark:bg-gray-900 rounded-2xl p-5 border border-gray-100 dark:border-gray-800 shadow-sm">
             <h2 className="font-bold text-gray-800 dark:text-gray-200 mb-3">📍 Localisation sur la carte</h2>
-            <MapView location={listing.location} city={listing.location} />
+            <MapViewWrapper location={listing.location} />
           </div>
         </div>
 
