@@ -17,7 +17,7 @@ export async function getCategory(req: Request, res: Response, next: NextFunctio
   try {
     const category = await prisma.category.findFirstOrThrow({
       where: {
-        OR: [{ id: req.params.idOrSlug }, { slug: req.params.idOrSlug }],
+        OR: [{ id: String(req.params.idOrSlug) }, { slug: String(req.params.idOrSlug) }],
       },
       include: { _count: { select: { listings: { where: { status: "ACTIVE" } } } } },
     });

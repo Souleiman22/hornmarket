@@ -8,7 +8,7 @@ import { UpdateProfileInput } from "../schemas/user.schema";
 export async function getPublicProfile(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
     const user = await prisma.user.findUniqueOrThrow({
-      where: { id: req.params.id },
+      where: { id: String(req.params.id) },
       select: {
         id: true,
         name: true,

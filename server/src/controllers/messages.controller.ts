@@ -27,7 +27,7 @@ export async function sendMessage(req: AuthRequest, res: Response, next: NextFun
 
 export async function getConversation(req: AuthRequest, res: Response, next: NextFunction): Promise<void> {
   try {
-    const { listingId } = req.params;
+    const listingId = String(req.params.listingId);
     const listing = await prisma.listing.findUniqueOrThrow({ where: { id: listingId } });
 
     const isOwner = listing.userId === req.user!.userId;

@@ -67,7 +67,7 @@ export async function getListings(req: AuthRequest, res: Response, next: NextFun
 export async function getListing(req: AuthRequest, res: Response, next: NextFunction): Promise<void> {
   try {
     const listing = await prisma.listing.findUniqueOrThrow({
-      where: { id: req.params.id },
+      where: { id: String(req.params.id) },
       select: listingSelect,
     });
     res.json(listing);
@@ -104,7 +104,7 @@ export async function createListing(req: AuthRequest, res: Response, next: NextF
 
 export async function updateListing(req: AuthRequest, res: Response, next: NextFunction): Promise<void> {
   try {
-    const existing = await prisma.listing.findUniqueOrThrow({ where: { id: req.params.id } });
+    const existing = await prisma.listing.findUniqueOrThrow({ where: { id: String(req.params.id) } });
     if (existing.userId !== req.user!.userId) throw new AppError(403, "Forbidden");
 
     const body = req.body as UpdateListingInput;
@@ -113,7 +113,7 @@ export async function updateListing(req: AuthRequest, res: Response, next: NextF
     if (body.images) data.images = JSON.stringify(body.images);
 
     const listing = await prisma.listing.update({
-      where: { id: req.params.id },
+      where: { id: String(req.params.id) },
       data,
       select: listingSelect,
     });
@@ -125,10 +125,10 @@ export async function updateListing(req: AuthRequest, res: Response, next: NextF
 
 export async function deleteListing(req: AuthRequest, res: Response, next: NextFunction): Promise<void> {
   try {
-    const existing = await prisma.listing.findUniqueOrThrow({ where: { id: req.params.id } });
+    const existing = await prisma.listing.findUniqueOrThrow({ where: { id: String(req.params.id) } });
     if (existing.userId !== req.user!.userId) throw new AppError(403, "Forbidden");
 
-    await prisma.listing.delete({ where: { id: req.params.id } });
+    await prisma.listing.delete({ where: { id: String(req.params.id) } });
     res.status(204).send();
   } catch (err) {
     next(err);

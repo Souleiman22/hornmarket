@@ -1,0 +1,8 @@
+import { Request, Response, NextFunction } from "express";
+export declare class AppError extends Error {
+    readonly statusCode: number;
+    constructor(statusCode: number, message: string);
+}
+export declare function notFound(req: Request, res: Response): void;
+export declare function errorHandler(err: Error, _req: Request, res: Response, _next: NextFunction): void;
+//# sourceMappingURL=errorHandler.d.ts.map

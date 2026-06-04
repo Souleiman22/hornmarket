@@ -37,7 +37,7 @@ export async function addFavorite(req: AuthRequest, res: Response, next: NextFun
 export async function removeFavorite(req: AuthRequest, res: Response, next: NextFunction): Promise<void> {
   try {
     await prisma.favorite.deleteMany({
-      where: { userId: req.user!.userId, listingId: req.params.listingId },
+      where: { userId: req.user!.userId, listingId: String(req.params.listingId) },
     });
     res.status(204).send();
   } catch (err) { next(err); }
@@ -46,7 +46,7 @@ export async function removeFavorite(req: AuthRequest, res: Response, next: Next
 export async function checkFavorite(req: AuthRequest, res: Response, next: NextFunction): Promise<void> {
   try {
     const fav = await prisma.favorite.findUnique({
-      where: { userId_listingId: { userId: req.user!.userId, listingId: req.params.listingId } },
+      where: { userId_listingId: { userId: req.user!.userId, listingId: String(req.params.listingId) } },
     });
     res.json({ isFavorite: !!fav });
   } catch (err) { next(err); }
